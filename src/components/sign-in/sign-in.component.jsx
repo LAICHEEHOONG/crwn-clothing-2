@@ -25,6 +25,11 @@ class SignIn extends React.Component {
 
         } catch (error) {
             console.log(error);
+            alert('Please try submit again');
+            this.setState({
+                email: '',
+                password: ''
+            })
         }
 
     }
@@ -41,7 +46,7 @@ class SignIn extends React.Component {
                 <h2 className='title'>I already have an account</h2>
                 <span className='title'>Sign in with your email  and password</span>
 
-                <form onSubmit={this.Submit}>
+                <form onSubmit={this.handleSubmit}>
 
                     <FormInput
                         name='email'
