@@ -1,35 +1,55 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {toggleCartHidden} from '../../redux/cart/cart.actions';
+import { connect } from 'react-redux';
+import { toggleCartHidden } from '../../redux/cart/cart.actions';
+import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
 import { ReactComponent as ShoppingIcon } from '../../asset/shopping-bag.svg';
 
 import './cart-icon.styles.scss';
 
-const CartIcon = ({toggleCartHidden}) => (
-    <div className='cart-icon' onClick={toggleCartHidden}>
-        <ShoppingIcon className='shopping-icon' />
-        <span className='item-count'>0</span>
-    </div>
-);
+const CartIcon = ({ toggleCartHidden, itemCount }) => {
+
+    return (
+        <div className='cart-icon' onClick={toggleCartHidden}>
+            <ShoppingIcon className='shopping-icon' />
+            <span className='item-count'>{itemCount}</span>
+        </div>
+    )
+};
+
+// const CartIcon = ({ toggleCartHidden, itemCount }) => {
+
+//     console.log('icon item count render')
+
+//     return (
+//         <div className='cart-icon' onClick={toggleCartHidden}>
+//             <ShoppingIcon className='shopping-icon' />
+//             <span className='item-count'>{itemCount}</span>
+//         </div>
+//     )
+// };
 
 
-// const mapStateToProps = state => ({
-//     hidden: state.cart.hidden
-// })
+// const mapStateToProps = ({ cart: { cartItems } }) => {
+
+//     return { itemCount: cartItems.reduce((accumalatedQuantity, cartItem) => accumalatedQuantity + cartItem.quantity, 0) }
+// }
+
+
+
+const mapStateToProps = (state) => {
+
+    return { itemCount: selectCartItemsCount(state) }
+}
+
+
+
+
 
 const mapDispatchToProps = dispatch => ({
-    toggleCartHidden:() => dispatch(toggleCartHidden())
+    toggleCartHidden: () => dispatch(toggleCartHidden())
 })
 
-export default connect(null, mapDispatchToProps)(CartIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
 
-// const mapStateToProps = (state) => ({
-//     currentUser: state.user.currentUser
-//   })
-  
-//   const mapDispatchToProps = dispatch => ({
-//     setCurrentUser: user => dispatch(setCurrentUser(user))
-//   });
-  
-  
-//   export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(null, mapDispatchToProps)(CartIcon);
+
